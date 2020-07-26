@@ -7,6 +7,7 @@ class ListNode:
         self.prev = prev
         self.value = value
         self.next = next
+    
             
 """
 Our doubly-linked list class. It holds references to 
@@ -16,8 +17,12 @@ class DoublyLinkedList:
     def __init__(self, node=None):
         self.head = node
         self.tail = node
-        self.length = 1 if node is not None else 0
-
+        if node is not None:
+            self.length = 1
+        else:
+            self.length = 0
+        #self.length = 1 if node is not None else 0
+        #self.length = 0
     def __len__(self):
         return self.length
     
@@ -84,8 +89,8 @@ class DoublyLinkedList:
         if node is self.tail:
             self.remove_from_tail()
         else:
-            node.delete()
-            self.length -= 1
+            self.delete(node)
+            #self.length -= 1 no longer needed due to new delete func
         self.add_to_head(value)
         
     """
@@ -93,7 +98,14 @@ class DoublyLinkedList:
     List and inserts it as the new tail node of the List.
     """
     def move_to_end(self, node):
-        pass
+        if node is self.tail:
+            return
+        value = node.value
+        if node is self.head:
+            self.remove_from_head()
+        else:
+            self.delete(node)
+        self.add_to_tail(value)
 
     """
     Deletes the input node from the List, preserving the 
@@ -113,38 +125,79 @@ class DoublyLinkedList:
         if node.next is not None
         node.
         """
+        """
+        current = self.head
+        node_deleted = False
+
+        if current is None:
+            node_deleted = False
         
+        elif current.value == node:
+            self.head = current.next
+            self.head.prev = None
+            node_deleted = True
+        
+        elif self.tail.value == node:
+            self.tail = self.tail.prev
+            self.tail.next = None
+            node_deleted = True
+
+        else:
+            while current:
+                if current.value == node:
+                    current.prev.next = current.next
+                    current.next.prev = current.prev
+                    node_deleted = True
+                current = current.next
+
+        if node_deleted:
+            self.length -= 1
+        
+        """
+        deleted = False
         if self.head is None or node is None:
             
             return None
         
         if self.head == node:
-            
+            #self.length -= 1
             self.head = node.next
-
+            deleted = True
         if self.tail == node:
-            
+            #self.length -= 1
             self.tail = node.prev    
-        
+            deleted = True
         if node.next is not None:
-            self.length -= 1
+            #self.length -= 1
             node.next.prev = node.prev
-        
+            deleted = True
         if node.prev is not None:
-            self.length -= 1
+            #self.length -= 1
             node.prev.next = node.next
-
+            deleted = True
+        
+        if deleted == True:
+            self.length -= 1
     """
     Finds and returns the maximum value of all the nodes 
     in the List.
     """
     def get_max(self):
-        pass
+        
+        maximum = None
+        current = None
+
+        current = maximum = self.head
+        while current:
+            if current.value > maximum.value:
+                maximum = current
+            current = current.next
+        return maximum.value   
 
 
 
 DLL = DoublyLinkedList()
-
+print(DLL.delete(DLL.head))
 DLL.add_to_head(2)
 DLL.add_to_head(1)
 DLL.add_to_tail(3)
@@ -156,10 +209,11 @@ print('DLL Length')
 print(len(DLL))
 print('DLL current head')
 print(DLL.head.value)
-DLL.delete(DLL.tail)
-print('DLL tail after delete')
-print(DLL.tail.value)
+DLL.delete(DLL.head)
+print('DLL head after delete')
+print(DLL.head.value)
 print('DLL length after delete')
 print(len(DLL))
-
+print('getmax of DLL')
+print(DLL.get_max())
 
