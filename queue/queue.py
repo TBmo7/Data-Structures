@@ -17,6 +17,10 @@ import sys
 sys.path.append('../singly_linked_list')
 from singly_linked_list import LinkedList
 
+
+
+
+
 class Queue:
     def __init__(self):
         self.size = 0
@@ -35,3 +39,24 @@ class Queue:
         self.size -= 1
         value = self.storage.remove_head()
         return value
+
+"""
+class Queue:
+    def __init__(self):
+        #self.size = 0
+        self.storage = []
+    
+    def __len__(self):
+        return len(self.storage)
+
+    def enqueue(self, value):
+        self.storage.append(value)
+    
+    def dequeue(self):
+        if self.storage:
+            return self.storage.pop(0)
+            
+        else:
+            return None
+
+"""

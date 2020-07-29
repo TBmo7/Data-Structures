@@ -65,6 +65,8 @@ class LinkedList:
         self.length -= 1
         return value
 
+    
+
     def contains(self,value):
         if not self.head:
             return False
